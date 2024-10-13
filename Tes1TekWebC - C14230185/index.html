@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tes 1 Teknologi Web</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        .footer-buttons {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+        }
+        .footer-buttons .btn {
+            margin-left: 0.5rem;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-center mt-5">
+            <button type="button" class="btn btn-primary" id="addCard">Add a New Card</button>
+        </div>
+        <div class="row mt-4" id="cardContainer"></div>
+        <form>
+            <div class="mb-3">
+                <label for="inputTitle" class="form-label">Image Title</label>
+                <input type="text" class="form-control" id="inputTitle" placeholder="Enter Image Title">
+            </div>
+            <div class="mb-3">
+                <label for="inputDesc" class="form-label">Description</label>
+                <input type="text" class="form-control" id="inputDesc" placeholder="Enter Image Description">
+            </div>
+        </form>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" id="addCardTitleDesc">Add Card Title and Description</button>
+        </div>
+    </div>
+
+    <script>
+        let currentCard = null;
+        $(document).ready(function() {
+            $('#addCard').on('click', function() {
+                const card = `
+                    <div class="col-sm-12 col-md-6 col-lg-4 card-item"> 
+                        <div class="card" style="width: 18rem;">
+                            <img src="https://picsum.photos/200" class="card-img-top" alt="Gambar Random"">
+                            <div class="card-body">
+                                <h5 class="card-title">Image Title Here</h5>
+                                <p class="card-text">Image Description Here...</p>
+                                <a href="#" class="btn btn-primary closeButton">Delete This Card</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('#cardContainer').append(card);
+                currentCard = $('#cardContainer .card-item').last();
+            });
+
+            $('#addCardTitleDesc').on('click', function() {
+                const title = $('#inputTitle').val();
+                const desc = $('#inputDesc').val();
+
+                if (currentCard && title && desc) {
+                    currentCard.find('.card-title').text(title);
+                    currentCard.find('.card-text').text(desc);
+                    $('#inputTitle').val('');
+                    $('#inputDesc').val('');
+                } else {
+                    alert('Add a new card first and fill both title and description!');
+                }
+            });
+
+            $(document).on('click', '.closeButton', function() {
+                $(this).closest('.card-item').remove();
+                currentCard = null;
+            });
+        });
+    </script>
+</body>
+</html>
